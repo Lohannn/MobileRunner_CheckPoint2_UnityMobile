@@ -57,6 +57,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   jumpForce: 6.5
+  distanceToWin: 0
 --- !u!114 &8480485704014672599
 MonoBehaviour:
   m_ObjectHideFlags: 0

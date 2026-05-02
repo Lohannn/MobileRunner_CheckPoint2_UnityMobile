@@ -41,15 +41,19 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        //Move entre as Pistas
-        currentPosition = new Vector3(currentLane, currentPosition.y, currentPosition.z);
-        currentPosition.z += runSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, currentPosition, stepSpeed * Time.deltaTime);
+        //Gerado com I.A ao bster de frente com um problema que causava o player mudar de lane muito lentamente
 
-        if (Mathf.Abs((currentPosition.x - transform.position.x)) < 0.01f)
-        {
-            transform.position = new Vector3(currentPosition.x, transform.position.y, transform.position.z);
-        }
+        // 1. Calcula a nova posição Z (frente) independentemente
+        float nextZ = transform.position.z + (runSpeed * Time.deltaTime);
+
+        // 2. Calcula a nova posição X (lateral) usando MoveTowards
+        float nextX = Mathf.MoveTowards(transform.position.x, currentLane, stepSpeed * Time.deltaTime);
+
+        // 3. Aplica ao Transform (Mantendo o Y atual do Rigidbody/Física)
+        transform.position = new Vector3(nextX, transform.position.y, nextZ);
+
+        // Atualiza o currentPosition para o próximo frame
+        currentPosition = transform.position;
     }
 
     private bool OnGround()

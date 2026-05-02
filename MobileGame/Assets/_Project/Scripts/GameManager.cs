@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static int gameStartDelay = 3;      
     public static bool inGame;
+    [SerializeField] private Canvas menuCanvas;
 
     private void Start()
     {
@@ -17,11 +18,10 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f);
             gameStartDelay--;
-            print(gameStartDelay);
         }
 
         yield return new WaitForSeconds(1.0f);
-        print("GO!");
         inGame = true;
+        menuCanvas.gameObject.SetActive(true);
     }
 }

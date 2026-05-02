@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
+    [SerializeField] private MainMenuManager uiCanvas;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Fish"))
+        if (other.CompareTag("Fish") || other.CompareTag("Sardine"))
         {
-            print("Fish");
-            Destroy(other.gameObject);
-        }
-        else if (other.CompareTag("Sardine"))
-        {
-            print("Sardine");
+            int scoreValue = other.GetComponent<Collectables>().GetPointsValue();
+
+            PlayerData.AddScore(scoreValue);
+            uiCanvas.ShowScoreGain(scoreValue);
+
             Destroy(other.gameObject);
         }
     }

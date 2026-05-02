@@ -9,4 +9,9 @@ public class Collectables : MonoBehaviour
     {
         transform.Rotate(rotationSpeed * Time.deltaTime * Vector3.up);
     }
+
+    public int GetPointsValue()
+    {
+        return pointsValue;
+    }
 }
