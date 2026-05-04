@@ -19,14 +19,22 @@ public class MainMenuCanvas : MonoBehaviour
     private bool isPaused = false;
     private Coroutine scoreGainCoroutine;
 
+    private AudioManager audioManager;
+
     private void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         pausePanel.gameObject.SetActive(false);
         scoreGainText.color = new Color(scoreGainText.color.r, scoreGainText.color.g, scoreGainText.color.b, 0);
     }
 
     private void Update()
     {
+        if (audioManager == null)
+        {
+            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+
         if (coveredDistanceSlider.value != (player.transform.position.z / player.GetDistanceToWin()))
         {
             coveredDistanceSlider.value = player.transform.position.z / player.GetDistanceToWin();
@@ -85,6 +93,8 @@ public class MainMenuCanvas : MonoBehaviour
 
     public void TogglePause()
     {
+        audioManager.PlaySFX(AudioManager.SFX_UI_BUTTON);
+
         if (isPaused)
         {
             ResumeGame();

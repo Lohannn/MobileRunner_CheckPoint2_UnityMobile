@@ -10,6 +10,7 @@ TagManager:
   - Sardine
   - RoadEnd
   - Victory
+  - AudioManager
   layers:
   - Default
   - TransparentFX

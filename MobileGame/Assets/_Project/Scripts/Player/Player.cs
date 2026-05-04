@@ -30,16 +30,23 @@ public class Player : MonoBehaviour
 
     private Animator anim;
     private Rigidbody rb;
+    private AudioManager audioManager;
 
     private void Start()
     {
         rb = GetComponentInChildren<Rigidbody>();
         anim = playerMesh.GetComponent<Animator>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         currentPosition = transform.position;
     }
 
     private void Update()
     {
+        if (audioManager == null)
+        {
+            audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        }
+
         if (GameStateManager.hasGameStarted)
         {
             if (anim.GetBool("pInGame") != GameStateManager.hasGameStarted) anim.SetBool("pInGame", GameStateManager.hasGameStarted);
@@ -95,6 +102,7 @@ public class Player : MonoBehaviour
 
         if (OnGround())
         {
+            audioManager.PlaySFX(AudioManager.SFX_CAT_JUMP);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
@@ -112,7 +120,7 @@ public class Player : MonoBehaviour
         anim.SetTrigger(RandomDeathAnim);
 
         rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
-
+        audioManager.PlayMusic(AudioManager.MUSIC_LOSE_THEME, 0.5f);
         loseCanva.gameObject.SetActive(true);
         loseCanva.GetComponent<StageEndCanvas>().StartFadeIn(fadeSpeed);
     }
@@ -122,6 +130,7 @@ public class Player : MonoBehaviour
         GameStateManager.hasGameStarted = false;
         runSpeed = 0;
         PlayerData.CheckScoreRecord();
+        audioManager.PlayMusic(AudioManager.MUSIC_VICTORY_THEME);
 
         mainCamera.MoveToVictoryPosition();
 
