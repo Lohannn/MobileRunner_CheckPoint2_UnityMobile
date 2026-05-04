@@ -5,11 +5,13 @@ public class PlayerCollisions : MonoBehaviour
     [SerializeField] private MainMenuCanvas uiCanvas;
     
     private AudioManager audioManager;
+    private Collider col;
     private Player player;
 
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        col = gameObject.GetComponent<Collider>();
         player = transform.parent.GetComponent<Player>();
     }
 
@@ -36,11 +38,13 @@ public class PlayerCollisions : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             audioManager.PlaySFX(AudioManager.SFX_CAT_DEATH);
+            col.enabled = false;
             player.Lose();
         }
 
         if (other.CompareTag("Victory"))
         {
+            col.enabled = false;
             player.Win();
         }
     }

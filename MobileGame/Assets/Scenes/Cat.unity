@@ -2036,7 +2036,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2386,6 +2386,11 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1603347694}
+    - target: {fileID: 6033156943549483016, guid: b2d92f1da40c00347b6b232919a4d0b6,
+        type: 3}
+      propertyPath: distanceToWin
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 6243424481086018723, guid: b2d92f1da40c00347b6b232919a4d0b6,
         type: 3}
       propertyPath: roadGenerator
