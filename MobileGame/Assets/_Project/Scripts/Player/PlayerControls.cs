@@ -25,6 +25,8 @@ public class PlayerControls : MonoBehaviour
 
     private void Swipe()
     {
+        if (!GameStateManager.hasGameStarted) return;
+
         touch = Input.GetTouch(0); 
 
         if(touch.phase == TouchPhase.Began) 

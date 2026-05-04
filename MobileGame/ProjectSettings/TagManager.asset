@@ -9,6 +9,7 @@ TagManager:
   - Fish
   - Sardine
   - RoadEnd
+  - Victory
   layers:
   - Default
   - TransparentFX

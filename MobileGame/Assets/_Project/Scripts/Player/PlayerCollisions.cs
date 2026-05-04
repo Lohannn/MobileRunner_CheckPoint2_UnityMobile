@@ -2,7 +2,14 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
-    [SerializeField] private MainMenuManager uiCanvas;
+    [SerializeField] private MainMenuCanvas uiCanvas;
+    
+    private Player player;
+
+    private void Awake()
+    {
+        player = transform.parent.GetComponent<Player>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,6 +21,16 @@ public class PlayerCollisions : MonoBehaviour
             uiCanvas.ShowScoreGain(scoreValue);
 
             Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("Obstacle"))
+        {
+            player.Lose();
+        }
+
+        if (other.CompareTag("Victory"))
+        {
+            player.Win();
         }
     }
 }

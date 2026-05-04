@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Canvas canvasCountdown;
     [SerializeField] private Text textCountdown;
 
+    [SerializeField] private GameStarter gameStarter;
+
     void Start()
     {
         canvasCountdown.enabled = true;
@@ -14,11 +16,11 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.inGame)
+        if (!GameStateManager.hasGameStarted)
         {
-            if (GameManager.gameStartDelay != 0)
+            if (gameStarter.gameStartDelay != 0)
             {
-                textCountdown.text = GameManager.gameStartDelay.ToString();
+                textCountdown.text = gameStarter.gameStartDelay.ToString();
             }
             else
             {

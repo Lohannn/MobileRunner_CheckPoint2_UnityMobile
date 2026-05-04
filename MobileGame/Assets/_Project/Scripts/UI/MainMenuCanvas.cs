@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuManager : MonoBehaviour
+public class MainMenuCanvas : MonoBehaviour
 {
     [SerializeField] private Image pausePanel;
     [SerializeField] private Slider coveredDistanceSlider;

@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float stepSpeed;
     [SerializeField] private float currentLane = 0;
     [SerializeField] private float laneLimit = 1;
+    [SerializeField] private float knockbackForce;
 
     [Header("Jump Settings")]
     [SerializeField] private Transform sensorGround;
@@ -17,6 +18,13 @@ public class Player : MonoBehaviour
 
     [Header("Other Settings")]
     [SerializeField] private float distanceToWin;
+
+    [Header("Stage End Canvas")]
+    [SerializeField] private Canvas loseCanva;
+    [SerializeField] private Canvas winCanva;
+    [SerializeField] private float fadeSpeed;
+
+    [SerializeField] private CameraManager mainCamera;
 
     private Vector3 currentPosition;
 
@@ -32,11 +40,13 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.inGame)
+        if (GameStateManager.hasGameStarted)
         {
-            if (anim.GetBool("pInGame") != GameManager.inGame) anim.SetBool("pInGame", GameManager.inGame);
+            if (anim.GetBool("pInGame") != GameStateManager.hasGameStarted) anim.SetBool("pInGame", GameStateManager.hasGameStarted);
             Move();
         }
+
+        anim.SetBool("pOnGround", OnGround());
     }
 
     private void Move()
@@ -81,6 +91,8 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
+        if (!GameStateManager.hasGameStarted) return;
+
         if (OnGround())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -89,6 +101,41 @@ public class Player : MonoBehaviour
     public float GetDistanceToWin()
     {
         return distanceToWin;
+    }
+
+    public void Lose()
+    {
+        GameStateManager.hasGameStarted = false;
+        runSpeed = 0;
+
+        string RandomDeathAnim = "pDeath" + Random.Range(1, 4);
+        anim.SetTrigger(RandomDeathAnim);
+
+        rb.AddForce(Vector3.back * knockbackForce, ForceMode.Impulse);
+
+        loseCanva.gameObject.SetActive(true);
+        loseCanva.GetComponent<StageEndCanvas>().StartFadeIn(fadeSpeed);
+    }
+
+    public void Win()
+    {
+        GameStateManager.hasGameStarted = false;
+        runSpeed = 0;
+        PlayerData.CheckScoreRecord();
+
+        mainCamera.MoveToVictoryPosition();
+
+        if (Random.Range(1, 11) == 10)
+        {
+            anim.SetTrigger("pRareDance");
+        }
+        else
+        {
+            anim.SetTrigger("pVictoryDance");
+        }
+
+        winCanva.gameObject.SetActive(true);
+        winCanva.GetComponent<StageEndCanvas>().StartFadeIn(fadeSpeed);
     }
 
     private void OnDrawGizmos()

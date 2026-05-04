@@ -17,6 +17,7 @@ public class PlayerData : MonoBehaviour
 
     public static void CheckScoreRecord()
     {
-        if (score > scoreRecord) scoreRecord = score;
+        if (score > scoreRecord) 
+            scoreRecord = score;
     }
 }
