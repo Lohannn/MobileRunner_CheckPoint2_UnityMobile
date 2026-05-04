@@ -3,15 +3,15 @@ using UnityEngine;
 public class PlayerCollisions : MonoBehaviour
 {
     [SerializeField] private MainMenuCanvas uiCanvas;
-    
+
+    private bool canBeHit;
+
     private AudioManager audioManager;
-    private Collider col;
     private Player player;
 
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
-        col = gameObject.GetComponent<Collider>();
         player = transform.parent.GetComponent<Player>();
     }
 
@@ -24,6 +24,8 @@ public class PlayerCollisions : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!canBeHit) return;
+
         if (other.CompareTag("Fish") || other.CompareTag("Sardine"))
         {
             int scoreValue = other.GetComponent<Collectables>().GetPointsValue();
@@ -38,13 +40,13 @@ public class PlayerCollisions : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             audioManager.PlaySFX(AudioManager.SFX_CAT_DEATH);
-            col.enabled = false;
+            canBeHit = false;
             player.Lose();
         }
 
         if (other.CompareTag("Victory"))
         {
-            col.enabled = false;
+            canBeHit = false;
             player.Win();
         }
     }
