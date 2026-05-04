@@ -4,7 +4,7 @@ public class PlayerCollisions : MonoBehaviour
 {
     [SerializeField] private MainMenuCanvas uiCanvas;
 
-    private bool canBeHit;
+    private bool canBeHit = true;
 
     private AudioManager audioManager;
     private Player player;
